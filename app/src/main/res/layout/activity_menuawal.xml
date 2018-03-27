@@ -7,7 +7,6 @@
     android:background="@drawable/bg3"
     tools:context="com.example.heniedrianti.projectta.menuawal">
 
-
     <Button
         android:id="@+id/bidentitas"
         style="@style/Widget.AppCompat.Button.Borderless"

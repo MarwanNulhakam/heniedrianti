@@ -1,8 +1,13 @@
 package com.example.heniedrianti.projectta;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -78,12 +83,130 @@ public class inputak extends AppCompatActivity {
      */
     List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
 
+    int[] sidebarCount = {2,10,5,7,6};
+    int page=0;
+    ImageView backButton,footerPrev,footerNext;
+    TextView headerText;
+    String[][] questionGroup = {q1,q2,q3,q4,q5};
+
+//    TextView option1 ;
+//    TextView option2;
+//    TextView option3;
+//    TextView option4;
+//    TextView option5;
+//    TextView option6;
+//    TextView option7;
+//    TextView option8;
+//    TextView option9;
+//    TextView option10;
+//    TextView option11;
+//    TextView option12;
+//    TextView option13;
+
+//    CheckBox    checkBox0,
+//                checkBox1,
+//                checkBox2,
+//                checkBox3,
+//                checkBox4,
+//                checkBox5,
+//                checkBox6,
+//                checkBox7;
+    
+    TextView[] sidebarGroup = new TextView[13];
+
+    CheckBox[] checkBoxGroup = new CheckBox[8];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inputak);
         setUpAdapter();
+
+        page = 0;
+
+        headerText = findViewById(R.id.headerText);
+
+        sidebarGroup[0] = findViewById(R.id.option1);
+        sidebarGroup[1] = findViewById(R.id.option2);
+        sidebarGroup[2] = findViewById(R.id.option3);
+        sidebarGroup[3] = findViewById(R.id.option4);
+        sidebarGroup[4] = findViewById(R.id.option5);
+        sidebarGroup[5] = findViewById(R.id.option6);
+        sidebarGroup[6] = findViewById(R.id.option7);
+        sidebarGroup[7] = findViewById(R.id.option8);
+        sidebarGroup[8] = findViewById(R.id.option9);
+        sidebarGroup[9] = findViewById(R.id.option10);
+        sidebarGroup[10] = findViewById(R.id.option11);
+        sidebarGroup[11] = findViewById(R.id.option12);
+        sidebarGroup[12] = findViewById(R.id.option13);
+
+        checkBoxGroup[0] = findViewById(R.id.checkBox0);
+        checkBoxGroup[1] = findViewById(R.id.checkBox1);
+        checkBoxGroup[2] = findViewById(R.id.checkBox2);
+        checkBoxGroup[3] = findViewById(R.id.checkBox3);
+        checkBoxGroup[4] = findViewById(R.id.checkBox4);
+        checkBoxGroup[5] = findViewById(R.id.checkBox5);
+        checkBoxGroup[6] = findViewById(R.id.checkBox6);
+        checkBoxGroup[7] = findViewById(R.id.checkBox7);
+
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            Intent k = new Intent(inputak.this, menuawal.class);
+                            startActivity(k);
+                        } catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        );
+
+        footerPrev = findViewById(R.id.footerPrevButton);
+        footerPrev.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        page = page == 0 ? 4 : page-1;
+                        System.out.println("page ="+page);
+                        settingSidebarForIndex(page);
+                    }
+                }
+        );
+        footerNext = findViewById(R.id.footerNextButton);
+        footerNext.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        page = (page+1)%5;
+                        System.out.println("page ="+page);
+                        settingSidebarForIndex(page);
+                    }
+                }
+        );
+
+        settingSidebarForIndex(0);
+    }
+
+    private void settingSidebarForIndex(int index){
+        setSidebarInvisibility();
+        index = index % questionGroup.length;
+        int numOfSidebar = sidebarCount[index];
+        for(int i=0;i<13;i++){
+            if(numOfSidebar<=0)
+                break;
+            sidebarGroup[i].setVisibility(View.VISIBLE);
+            numOfSidebar--;
+        }
+        headerText.setText(parent[index]);
+    }
+
+    private void setSidebarInvisibility(){
+        for(int i=0;i<13;i++){
+            sidebarGroup[i].setVisibility(View.INVISIBLE);
+        }
     }
 
     private void setUpAdapter() {
@@ -145,20 +268,21 @@ public class inputak extends AppCompatActivity {
         data.add(thirdLevelq3);
         data.add(thirdLevelq4);
         data.add(thirdLevelq5);
-        expandableListView = (ExpandableListView) findViewById(R.id.expandible_listview);
-        //passing three level of information to constructor
-        ThreeLevelListAdapter threeLevelListAdapterAdapter = new ThreeLevelListAdapter(this, parent, secondLevel, data);
-        expandableListView.setAdapter(threeLevelListAdapterAdapter);
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            int previousGroup = -1;
+//        expandableListView = (ExpandableListView) findViewById(R.id.expandible_listview);
+//        //passing three level of information to constructor
+//        ThreeLevelListAdapter threeLevelListAdapterAdapter = new ThreeLevelListAdapter(this, parent, secondLevel, data);
+//        expandableListView.setAdapter(threeLevelListAdapterAdapter);
+//        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+//            int previousGroup = -1;
+//
+//            @Override
+//            public void onGroupExpand(int groupPosition) {
+//                if (groupPosition != previousGroup)
+//                    expandableListView.collapseGroup(previousGroup);
+//                previousGroup = groupPosition;
+//            }
+//        });
 
-            @Override
-            public void onGroupExpand(int groupPosition) {
-                if (groupPosition != previousGroup)
-                    expandableListView.collapseGroup(previousGroup);
-                previousGroup = groupPosition;
-            }
-        });
 
 
     }
