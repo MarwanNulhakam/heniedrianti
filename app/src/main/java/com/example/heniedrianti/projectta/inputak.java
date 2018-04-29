@@ -195,11 +195,19 @@ public class inputak extends AppCompatActivity {
     List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
 
     int[] sidebarCount = {2,13,5,5,10};
+
     int page=0;
     ImageView backButton,footerPrev,footerNext,sidebarIcon[];
     TextView headerText;
     TextView footerText;
     String[][] questionGroup = {q1,q2,q3,q4,q5};
+    String [][][] optionGroup = {
+            opsiPendidikan,
+            opsiPelaksanaanPendidikan,
+            opsiPelaksanaanPenelitian,
+            opsiPelaksanaanPKM,
+            opsiPenunjangKAD
+    };
 
     TextView question;
 
@@ -387,6 +395,22 @@ public class inputak extends AppCompatActivity {
 
     private void setQuestionGroup(int index, int option){
         question.setText(questionGroup[index][option]);
+        setOptionInvisibility();
+        setOptionVisibility(index,option);
+    }
+
+    private void setOptionInvisibility(){
+        for(int i=0;i<8;i++){
+            checkBoxGroup[i].setVisibility(View.INVISIBLE);
+            checkBoxGroup[i].setText("TextBox");
+        }
+    }
+
+    private void setOptionVisibility(int index, int option){
+        for(int i=0;i<optionGroup[index][option].length;i++){
+            checkBoxGroup[i].setVisibility(View.VISIBLE);
+            checkBoxGroup[i].setText(optionGroup[index][option][i]);
+        }
     }
 
 //    private void setUpAdapter() {
