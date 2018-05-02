@@ -8,11 +8,13 @@ import java.util.Map;
  */
 
 public class Variable {
-    private Map data = new HashMap();
-    public Variable(){
-        data.put("formalS3",false);
-        data.put("formalS2",false);
-        data.put("diklat", false);
+    private String resultString=null;
+
+    public void setResultString(String str){
+        this.resultString=str;
     }
 
+    public String getResultString(){
+        return this.resultString;
+    }
 }
