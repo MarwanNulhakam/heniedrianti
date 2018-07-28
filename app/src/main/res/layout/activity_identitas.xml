@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bagr"
     tools:context="com.example.heniedrianti.projectta.identitas">
+
     <TextView
         android:id="@+id/headerr"
         android:layout_width="wrap_content"
@@ -14,14 +15,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:text="SILAHKAN MASUKKAN IDENTITAS ANDA"
-        android:textSize="18dp"
+        android:text="IDENTITAS PENGGUNA"
         android:textColor="#000000"
+        android:textSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.016" />
+        app:layout_constraintVertical_bias="0.015" />
 
     <TextView
         android:id="@+id/idnip"
