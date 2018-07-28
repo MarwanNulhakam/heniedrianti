@@ -1,11 +1,14 @@
 package com.example.heniedrianti.projectta.connection;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.heniedrianti.projectta.MainActivity;
+import com.example.heniedrianti.projectta.database.DatabaseEngine;
+import com.example.heniedrianti.projectta.variable.AllConstants;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,6 +18,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -33,7 +38,7 @@ public class OnlineConnection {
     }
 
 
-    public void request(final String id, final Activity activity)    {
+    public void request(final String id, final DatabaseEngine de)    {
         Log.d("execute","OnlineConnection.request");
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
@@ -80,23 +85,43 @@ public class OnlineConnection {
                 } catch (Exception e) {
                     Log.e("Fail 2", e.toString());
                 }
-                JSONObject json_data;
+                JSONObject json_data = null;
+                JSONArray json_array;
                 try {
                     json_data = new JSONObject(result);
-                    Log.d("result ", json_data.getString("nama"));
-                    return json_data.getString("nama");
+                    Log.d("result ", json_data.toString());
+                    return json_data.toString();
 
                 } catch (Exception e) {
-                    json_data = null;
-                    Log.e("Fail 3", e.toString());
-                    return "";
+                    try{
+                        json_array = new JSONArray(result);
+                        for(int i=0;i<json_array.length();i++){
+                            json_data = json_array.getJSONObject(i);
+                            Log.d("JSONArray exception",json_data.toString());
+                        }
+                        return json_data.toString();
+                    }catch(Exception ex) {
+                        json_data = null;
+                        Log.e("Fail 3", e.toString());
+                        return "";
+                    }
                 }
 
             }
 
             @Override
             protected void onPostExecute(String result) {
-                super.onPostExecute(result);
+                Log.d("connection result",result);
+                try {
+                    JSONObject obj = new JSONObject(result);
+                    String data[] = new String[AllConstants.SQLiteProperties.dosenColumn.length];
+                    for(int i=0;i<data.length;i++){
+                        data[i]=obj.getString(AllConstants.SQLiteProperties.dosenColumn[i]);
+                    }
+                    de.insert("person",AllConstants.SQLiteProperties.dosenColumn,data);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
