@@ -70,8 +70,13 @@ public class DatabaseEngine extends SQLiteOpenHelper{
         return db.rawQuery("SELECT * FROM "+tableName,null);
     }
 
-    public String[]cursorToStringArray(Cursor cursor){
-        for()
+    public String[]cursorToStringArray(Cursor cursor,int[]var){
+        String[]data = new String[var.length];
+        cursor.moveToFirst();
+        for(int i=0;i<data.length;i++){
+            data[i] = cursor.getString(var[i]);
+        }
+        return data;
     }
 
     public Cursor executeQuery(String query){

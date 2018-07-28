@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initVariable();
         de = new DatabaseEngine(this.getApplicationContext());
         Cursor c = de.executeQuery("SELECT nip FROM person");
         if(c.getCount()!=0){
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(bregister);
     }
     private void initDB(){
-        new OnlineConnection(this,"http://192.168.1.7/select.php?nip="+nipField.getText()).request("0",de);
+        new OnlineConnection(this,"http://10.164.96.126/select.php?nip="+nipField.getText().toString()).request("0",de);
     }
     private void initVariable(){
         nipField = (EditText)findViewById(R.id.eusername);

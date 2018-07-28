@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.heniedrianti.projectta.database.DatabaseEngine;
+import com.example.heniedrianti.projectta.variable.AllConstants;
 
 public class identitas extends AppCompatActivity {
 
@@ -12,10 +13,11 @@ public class identitas extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_identitas);
-
+        int []index={0,1,5,4,6,7,8,10,9,11};
         initComp();
         DatabaseEngine de = new DatabaseEngine(getApplicationContext());
-
+        String[]result = de.cursorToStringArray(de.executeQuery("SELECT * FROM person"),index);
+        setValue(result);
     }
 
     private void initComp(){
