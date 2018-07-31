@@ -38,7 +38,7 @@ public class OnlineConnection {
     }
 
 
-    public void request(final String id, final DatabaseEngine de)    {
+    public void request(final String id, final String tableDestination, final DatabaseEngine de)    {
         Log.d("execute","OnlineConnection.request");
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 
@@ -95,11 +95,14 @@ public class OnlineConnection {
                 } catch (Exception e) {
                     try{
                         json_array = new JSONArray(result);
+                        String res = "";
                         for(int i=0;i<json_array.length();i++){
                             json_data = json_array.getJSONObject(i);
-                            Log.d("JSONArray exception",json_data.toString());
+                            res = res + json_data.toString()+"#*#";
+//                            Log.d("JSONArray exception",json_data.toString());
                         }
-                        return json_data.toString();
+                        Log.d("JSON Array Exception",res);
+                        return res.substring(0,res.length()-3);
                     }catch(Exception ex) {
                         json_data = null;
                         Log.e("Fail 3", e.toString());
@@ -111,16 +114,28 @@ public class OnlineConnection {
 
             @Override
             protected void onPostExecute(String result) {
-                Log.d("connection result",result);
-                try {
-                    JSONObject obj = new JSONObject(result);
-                    String data[] = new String[AllConstants.SQLiteProperties.dosenColumn.length];
-                    for(int i=0;i<data.length;i++){
-                        data[i]=obj.getString(AllConstants.SQLiteProperties.dosenColumn[i]);
+                Log.d("connection result","success");
+                if(result.length()<=1){
+                    Log.e("OnPostExecute","tidak ada data yang terkirim ke proses insert");
+                    return;
+                }
+                if(de!=null) {
+                    try {
+                        String []res = result.split("#*#");
+                        String []col = AllConstants.SQLiteProperties.dosenColumn;
+                        for(int x=0;x<res.length;x++) {
+                            JSONObject obj = new JSONObject(result);
+                            String data[] = new String[col.length];
+                            for (int i = 0; i < data.length; i++) {
+                                data[i] = obj.getString(col[i]);
+                            }
+                            de.insert(tableDestination, col, data);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    de.insert("person",AllConstants.SQLiteProperties.dosenColumn,data);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }else{
+                    Log.d("connection result","");
                 }
             }
         }

@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initVariable();
+        ipAddress = "10.164.160.133";
         de = new DatabaseEngine(this.getApplicationContext());
         Cursor c = de.executeQuery("SELECT nip FROM person");
         if(c.getCount()!=0){
@@ -40,12 +41,14 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(bregister);
     }
     private void initDB(){
-        new OnlineConnection(this,"http://10.164.96.126/select.php?nip="+nipField.getText().toString()).request("0",de);
+        new OnlineConnection(this,"http://"+ipAddress+"/select.php?nip="+nipField.getText().toString()).request("0","person",de);
+        new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20matakuliah.*,%20mengajar.tahunakademik,%20mengajar.kelas,%20mengajar.statusmatakuliah%20FROM%20matakuliah%20LEFT%20JOIN%20mengajar%20ON%20matakuliah.id=mengajar.idmatakuliah%20where%20mengajar.nip%20=%20%27197307231999032001%27").request("0","kegiatan",null);
     }
     private void initVariable(){
         nipField = (EditText)findViewById(R.id.eusername);
     }
     DatabaseEngine de;
     EditText nipField;
+    private String ipAddress;
 }
 

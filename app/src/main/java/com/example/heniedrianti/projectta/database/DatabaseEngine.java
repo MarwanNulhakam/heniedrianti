@@ -29,6 +29,7 @@ public class DatabaseEngine extends SQLiteOpenHelper{
             for(int j=0;j<columnName[i].length;j++){
                 column += columnName[i][j]+",";
             }
+            Log.d("Database Engine","execute \""+statement+tableName[i]+" ("+column.substring(0,column.length()-1)+")"+"\"");
             db.execSQL(statement+tableName[i]+" ("+column.substring(0,column.length()-1)+")");
         }
     }
