@@ -61,6 +61,7 @@ public class OnlineConnection {
                     Log.d("execute","OnlineConnection.request.doInBackground");
                     nameValuePairs.add(new BasicNameValuePair("id", id));
                     HttpClient httpclient = new DefaultHttpClient();
+//                    Log.d("OnlineConnection","accessing URL: "+url);
                     HttpPost httppost = new HttpPost(url);
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                     HttpResponse response = httpclient.execute(httppost);
@@ -89,7 +90,7 @@ public class OnlineConnection {
                 JSONArray json_array;
                 try {
                     json_data = new JSONObject(result);
-                    Log.d("result ", json_data.toString());
+                    Log.d("OnlineConnection", "Success, return JSON Object");
                     return json_data.toString();
 
                 } catch (Exception e) {
@@ -98,10 +99,10 @@ public class OnlineConnection {
                         String res = "";
                         for(int i=0;i<json_array.length();i++){
                             json_data = json_array.getJSONObject(i);
-                            res = res + json_data.toString()+"#*#";
+                            res = res + json_data.toString()+"###";
 //                            Log.d("JSONArray exception",json_data.toString());
                         }
-                        Log.d("JSON Array Exception",res);
+                        Log.d("OnlineConnection","Success, return Json Array");
                         return res.substring(0,res.length()-3);
                     }catch(Exception ex) {
                         json_data = null;
@@ -114,17 +115,20 @@ public class OnlineConnection {
 
             @Override
             protected void onPostExecute(String result) {
-                Log.d("connection result","success");
                 if(result.length()<=1){
                     Log.e("OnPostExecute","tidak ada data yang terkirim ke proses insert");
                     return;
                 }
                 if(de!=null) {
                     try {
-                        String []res = result.split("#*#");
-                        String []col = AllConstants.SQLiteProperties.dosenColumn;
+                        Log.d("OnlineConnection","insert data to local db");
+                        String []res = result.split("###");
+//                        for(int x1=0;x1<res.length;x1++) {
+//                            System.out.println(res[x1]);
+//                        }
+                        String []col = AllConstants.SQLiteProperties.getTableColumn(tableDestination);
                         for(int x=0;x<res.length;x++) {
-                            JSONObject obj = new JSONObject(result);
+                            JSONObject obj = new JSONObject(res[x]);
                             String data[] = new String[col.length];
                             for (int i = 0; i < data.length; i++) {
                                 data[i] = obj.getString(col[i]);
@@ -135,7 +139,7 @@ public class OnlineConnection {
                         e.printStackTrace();
                     }
                 }else{
-                    Log.d("connection result","");
+                    Log.d("OnlineConnection","no database selected as local db");
                 }
             }
         }
