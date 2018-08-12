@@ -80,6 +80,18 @@ public class DatabaseEngine extends SQLiteOpenHelper{
         return data;
     }
 
+    public String[][]cursorToStringArray2D(Cursor cursor,int[]var){
+        String[][]data = new String[cursor.getCount()][var.length];
+        cursor.moveToFirst();
+        for(int i=0;i<data.length;i++){
+            for(int j=0;j<data[i].length;j++) {
+                data[i][j] = cursor.getString(var[j]);
+            }
+            cursor.moveToNext();
+        }
+        return data;
+    }
+
     public Cursor executeQuery(String query){
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery(query,null);

@@ -22,6 +22,11 @@ public class menuawal extends AppCompatActivity {
     }
     public void viewdata (View view) {
         Intent bview = new Intent(menuawal.this, viewdata.class);
+        String category = "B01";
+        String tableName = "mengajar";
+        bview.putExtra("query","select * from "+tableName+" where status = '' or status = '"+category+"'");
+        bview.putExtra("table","mengajar");
+        bview.putExtra("category",category);
         startActivity(bview);
     }
 }

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.heniedrianti.projectta.variable.AllConstants;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -197,6 +199,7 @@ public class inputak extends AppCompatActivity {
     int[] sidebarCount = {2,13,5,5,10};
 
     int page=0;
+    private static int currentOption=-1;
     ImageView backButton,footerPrev,footerNext,sidebarIcon[];
     TextView headerText;
     TextView footerText;
@@ -353,9 +356,19 @@ public class inputak extends AppCompatActivity {
                     System.out.println("page "+page+ "index "+x);
                     setQuestionGroup(page, x);
                     setOptionSelectedEachPage(page,x);
+                    inputak.currentOption = x;
                 }
             });
         }
+
+        question.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openInputActivity();
+            }
+        });
+
+
 
         page = 0;
         settingSidebarForIndex(0);
@@ -411,6 +424,19 @@ public class inputak extends AppCompatActivity {
             checkBoxGroup[i].setVisibility(View.VISIBLE);
             checkBoxGroup[i].setText(optionGroup[index][option][i]);
         }
+    }
+    private final int[][]tableSelected = {{}};
+    private void openInputActivity(){
+//        String category = ""+((char)(page+65))+"."+(currentOption<9?"0":"")+ Integer.toString(currentOption);
+//        String tableName = AllConstants.SQLiteProperties.TABLENAME[tableSelected[page][currentOption]];
+
+        Intent bview = new Intent(inputak.this, viewdata.class);
+        String category = "B01";
+//        String tableName = "mengajar";
+        bview.putExtra("query","select * from mengajar where status = '' or status = '"+category+"' or status IS NULL");
+        bview.putExtra("table","mengajar");
+        bview.putExtra("category",category);
+        startActivity(bview);
     }
 
 //    private void setUpAdapter() {

@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initVariable();
-        ipAddress = "192.168.1.8";
+        ipAddress = "10.20.30.32";
         de = new DatabaseEngine(this.getApplicationContext());
         Cursor c = de.executeQuery("SELECT nip FROM person");
         if(c.getCount()!=0){
