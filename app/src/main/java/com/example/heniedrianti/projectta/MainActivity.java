@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //ambil data jabatan
         new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20id%20AS%20idjabatan,jabatan,divisi,lembaga,tanggalpelantikan%20FROM%20jabatan%20WHERE%20nip%20=%20"+nipField.getText().toString()).request("0","jabatan",de);
         //ambil data pembinaan
-        new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20id%20AS%20idpembinaan,kegiatan,waktu%20FROM%20`pembinaan`%20WHERE%20nip%20=%20"+nipField.getText().toString()).request("0","pembinaan",de);
+        new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20id%20AS%20idpembinaan,kegiatan,waktu%20FROM%20pembinaan%20WHERE%20nip%20=%20"+nipField.getText().toString()).request("0","pembinaan",de);
     }
 
     private void initVariable(){
