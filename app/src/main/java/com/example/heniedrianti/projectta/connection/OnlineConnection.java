@@ -61,7 +61,7 @@ public class OnlineConnection {
                     Log.d("execute","OnlineConnection.request.doInBackground");
                     nameValuePairs.add(new BasicNameValuePair("id", id));
                     HttpClient httpclient = new DefaultHttpClient();
-//                    Log.d("OnlineConnection","accessing URL: "+url);
+                    Log.d("OnlineConnection","accessing URL: "+url);
                     HttpPost httppost = new HttpPost(url);
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
                     HttpResponse response = httpclient.execute(httppost);

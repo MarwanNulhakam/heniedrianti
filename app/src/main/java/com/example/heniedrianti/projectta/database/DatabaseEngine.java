@@ -111,4 +111,9 @@ public class DatabaseEngine extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         return (db.delete(tableName,"id = ?",new String[]{id}))>0;
     }
+
+
+    public String generateQuery(String tableName,String extraCondition){
+        return "";
+    }
 }

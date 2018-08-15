@@ -3,6 +3,7 @@ package com.example.heniedrianti.projectta;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
@@ -44,11 +45,14 @@ public class inputak extends AppCompatActivity {
             "M. Menlakukan kegiatan pengembangan diri untuk meningkatkan kompetensi"
     };
     String[] q3 = new String[]{
-            "A. Menghasilkan Karya Ilmiah",
-            "B. Menerjemahkan/menyadur buku ilmiah",
-            "C. Mengedit/menyunting karya ilmiah",
-            "D. Membuat rencana dan karya teknologi yang di patenkan",
-            "E. Membuat rancangan dan karya teknologi,rancangan dan karya seni monumental/seni pertunjukan/karya sastra"
+            "A. Menghasilkan Karya Ilmiah sesuai dengan bidang Ilmunya",
+            "B. Hasil Penelitian atau Hasil Pemikiran yang Diseminasikan",
+            "C. Hasil penelitian atau pemikiran atau kerjasama industri yang tidak dipublikasikan (tersimpan dalam perpustakaan)",
+            "D. Menerjemahkan/menyadur buku ilmiah yang diterbitkan (ber-ISBN)",
+            "E. Mengedit/menyunting karya ilmiah",
+            "F. Membuat rencana dan karya teknologi yang di patenkan",
+            "G. Membuat rancangan dan karya teknologi,rancangan dan karya seni monumental/seni pertunjukan/karya sastra",
+            "H. Membuat rancangan dan karya seni/seni pertunjukan yang tidak mendapatkan HKI"
     };
     String[] q4 = new String[]{"" +
             "A. Menduduki jabatan pimpinan",
@@ -129,10 +133,13 @@ public class inputak extends AppCompatActivity {
 
     String[][] opsiPelaksanaanPenelitian = {
             {"Hasil penelitian atau pemikiran yang dipublikasikan"},
+            {"Hasil penelitian atau pemikiran yang dipublikasikan"},
+            {"Hasil penelitian atau pemikiran yang dipublikasikan"},
             {"Diterbitkan dan diedarkan secara nasional"},
             {"Diterbitkan dan diedarkan secara nasional"},
             {"1. Internasional","2. Nasional"},
-            {"1. Tingkat Internasional","2. Tingkat nasional","3. Tingkat lokal"}
+            {"1. Tingkat Internasional","2. Tingkat nasional","3. Tingkat lokal"},
+            {"Terpenuhi"}
     };
 
     String[] parent2= new String[]{"1. Hasil penelitian atau pemikiran yang dipublikasikan"};
@@ -196,7 +203,7 @@ public class inputak extends AppCompatActivity {
      */
     List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
 
-    int[] sidebarCount = {2,13,5,5,10};
+    int[] sidebarCount = {2,13,8,5,10};
 
     int page=0;
     private static int currentOption=-1;
@@ -314,6 +321,7 @@ public class inputak extends AppCompatActivity {
                         try {
                             Intent k = new Intent(inputak.this, menuawal.class);
                             startActivity(k);
+                            finish();
                         } catch(Exception e) {
                             e.printStackTrace();
                         }
@@ -357,6 +365,7 @@ public class inputak extends AppCompatActivity {
                     setQuestionGroup(page, x);
                     setOptionSelectedEachPage(page,x);
                     inputak.currentOption = x;
+//                    Log.d("currentOption inputak",Integer.toString(inputak.currentOption));
                 }
             });
         }
@@ -425,15 +434,18 @@ public class inputak extends AppCompatActivity {
             checkBoxGroup[i].setText(optionGroup[index][option][i]);
         }
     }
-    private final int[][]tableSelected = {{}};
-    private void openInputActivity(){
-//        String category = ""+((char)(page+65))+"."+(currentOption<9?"0":"")+ Integer.toString(currentOption);
-//        String tableName = AllConstants.SQLiteProperties.TABLENAME[tableSelected[page][currentOption]];
+    private final int[][]tableSelected = {
+            {}
+    };
 
+    private void openInputActivity(){
+        String category = ""+((char)(page+65))+(inputak.currentOption<9?"0":"")+ Integer.toString(inputak.currentOption);
+//        String tableName = AllConstants.SQLiteProperties.TABLENAME[tableSelected[page][currentOption]];
+//        Log.d("openInputActivity","generated category: "+category);
         Intent bview = new Intent(inputak.this, viewdata.class);
-        String category = "B01";
+//        String category = "B01";
 //        String tableName = "mengajar";
-        bview.putExtra("query","select * from mengajar where status = '' or status = '"+category+"' or status IS NULL");
+        bview.putExtra("query","select * from mengajar where (status = '' or status = '"+category+"' or status IS NULL)");
         bview.putExtra("table","mengajar");
         bview.putExtra("category",category);
         startActivity(bview);

@@ -17,6 +17,7 @@ public class menuawal extends AppCompatActivity {
         startActivity(bidentitas);
     }
     public void inputak (View view) {
+//        finish();
         Intent binputak = new Intent(menuawal.this, inputak.class);
         startActivity(binputak);
     }
