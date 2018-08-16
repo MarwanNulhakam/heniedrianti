@@ -1,3 +1,6 @@
+
+
+
 package com.example.heniedrianti.projectta;
 
 import android.content.Context;
@@ -25,7 +28,6 @@ public class viewdata extends AppCompatActivity {
         setContentView(R.layout.option_list);
         index = 0;
         initComponents();
-
     }
 
     private void initComponents(){
@@ -37,11 +39,28 @@ public class viewdata extends AppCompatActivity {
         final String category = getIntent().getStringExtra("category");
         final String tableName = getIntent().getStringExtra("table");
         System.out.println("category: "+category);
+        System.out.println("tableName: "+tableName);
         int[]a;
+        String[]listTable = AllConstants.SQLiteProperties.TABLENAME;
         switch (tableName){
+            case "person"   :   a=linearSeries(AllConstants.SQLiteProperties.COLUMNNAME[0].length);
+                break;
+            case "jabatan"  :   a=linearSeries(AllConstants.SQLiteProperties.COLUMNNAME[5].length);
+                break;
+            case "jurnal"   :   a=linearSeries(AllConstants.SQLiteProperties.COLUMNNAME[4].length);
+                break;
+            case "kegiatan" :   a=linearSeries(AllConstants.SQLiteProperties.COLUMNNAME[3].length);
+                break;
             case "mengajar" :   a=linearSeries(AllConstants.SQLiteProperties.COLUMNNAME[1].length);
-                                break;
+                break;
+            case "pembinaan":   a=linearSeries(AllConstants.SQLiteProperties.COLUMNNAME[6].length);
+                break;
+            case "skripsi"  :   a=linearSeries(AllConstants.SQLiteProperties.COLUMNNAME[2].length);
+                break;
+            case "karir"    :   a=linearSeries(AllConstants.SQLiteProperties.COLUMNNAME[7].length);
+                break;
             default         :   a=new int[]{0};
+                break;
         }
         String[][]data = db.cursorToStringArray2D(db.executeQuery(getIntent().getStringExtra("query")),a);
         for(int i=0;i<data.length;i++) {
@@ -68,7 +87,6 @@ public class viewdata extends AppCompatActivity {
                             ? new String[]{category}
                             : new String[]{""};
                     a &= db.update(tableName,new String[]{"status"},x,"id = ?",new String[]{temp[i][0]});
-
                 }
                 Toast.makeText(getApplicationContext(),"Data "+(a ? "saved successfully" : "failed to save"),Toast.LENGTH_SHORT).show();
                 finish();

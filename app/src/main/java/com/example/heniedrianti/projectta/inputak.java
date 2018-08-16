@@ -206,7 +206,7 @@ public class inputak extends AppCompatActivity {
     int[] sidebarCount = {2,13,8,5,10};
 
     int page=0;
-    private static int currentOption=-1;
+    private static int currentOption=0;
     ImageView backButton,footerPrev,footerNext,sidebarIcon[];
     TextView headerText;
     TextView footerText;
@@ -365,7 +365,7 @@ public class inputak extends AppCompatActivity {
                     setQuestionGroup(page, x);
                     setOptionSelectedEachPage(page,x);
                     inputak.currentOption = x;
-//                    Log.d("currentOption inputak",Integer.toString(inputak.currentOption));
+                    Log.d("currentOption inputak",Integer.toString(inputak.currentOption));
                 }
             });
         }
@@ -434,19 +434,29 @@ public class inputak extends AppCompatActivity {
             checkBoxGroup[i].setText(optionGroup[index][option][i]);
         }
     }
+    //  0       1           2           3           4       5       6
+    //"person","mengajar","skripsi","kegiatan","jurnal","jabatan","pembinaan"
     private final int[][]tableSelected = {
-            {}
+            {7,0},
+            {1,6,6,2,2,6,3,3,3,5,6,3,3},
+            {4,4,4,4,4,4,4,4},
+            {5,3,3,3,3},
+            {3,3,5,3,3,3,3,3,3,3}
     };
 
     private void openInputActivity(){
-        String category = ""+((char)(page+65))+(inputak.currentOption<9?"0":"")+ Integer.toString(inputak.currentOption);
+        String category = ""+((char)(page+65))+(inputak.currentOption<9?"0":"")+ Integer.toString(inputak.currentOption+1);
 //        String tableName = AllConstants.SQLiteProperties.TABLENAME[tableSelected[page][currentOption]];
 //        Log.d("openInputActivity","generated category: "+category);
         Intent bview = new Intent(inputak.this, viewdata.class);
 //        String category = "B01";
-//        String tableName = "mengajar";
-        bview.putExtra("query","select * from mengajar where (status = '' or status = '"+category+"' or status IS NULL)");
-        bview.putExtra("table","mengajar");
+////        String tableName = "mengajar";
+//        bview.putExtra("query","select * from mengajar where (status = '' or status = '"+category+"' or status IS NULL)");
+//        bview.putExtra("table","mengajar");
+//        bview.putExtra("category",category);
+        String tableName = AllConstants.SQLiteProperties.TABLENAME[tableSelected[page][inputak.currentOption]];
+        bview.putExtra("query","select * from "+tableName+" where (status = '' or status = '"+category+"' or status IS NULL)");
+        bview.putExtra("table",tableName);
         bview.putExtra("category",category);
         startActivity(bview);
     }

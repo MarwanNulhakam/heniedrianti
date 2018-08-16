@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initVariable();
-        ipAddress = "192.168.1.4";
+        ipAddress = "192.168.1.5";
 
         /*
         * memeriksa apakah aplikasi sudah digunakan login
@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20id%20AS%20idjabatan,jabatan,divisi,lembaga,tanggalpelantikan%20FROM%20jabatan%20WHERE%20nip%20=%20"+nipField.getText().toString()).request("0","jabatan",de);
         //ambil data pembinaan
         new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20id%20AS%20idpembinaan,kegiatan,waktu%20FROM%20pembinaan%20WHERE%20nip%20=%20"+nipField.getText().toString()).request("0","pembinaan",de);
+        //ambil data karir akademik
+        new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20id,jenjang,tanggal,universitas%20FROM%20karirakademik%20WHERE%20nip%20=%20"+nipField.getText().toString()).request("0","karir",de);
     }
 
     private void initVariable(){

@@ -93,6 +93,7 @@ public class DatabaseEngine extends SQLiteOpenHelper{
     }
 
     public Cursor executeQuery(String query){
+        Log.d("DatabaseEngine","do query: "+query);
         SQLiteDatabase db = this.getWritableDatabase();
         return db.rawQuery(query,null);
     }
@@ -112,8 +113,10 @@ public class DatabaseEngine extends SQLiteOpenHelper{
         return (db.delete(tableName,"id = ?",new String[]{id}))>0;
     }
 
-
-    public String generateQuery(String tableName,String extraCondition){
+    public String generateQuery(String category,String extraCondition){
+        String q =  "select * from mengajar where (status = '' or status = "+category+"' or status IS NULL)"+
+                    extraCondition!=null? "AND ("+extraCondition+")" : ""
+                    ;
         return "";
     }
 }
