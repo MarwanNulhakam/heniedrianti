@@ -77,12 +77,13 @@ public class OptionActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 boolean a = true;
+                String whereClause = tableName.equals("person") ? "nip = ?" : "id = ?";
                 for(int i=0;i<checkboxList.size();i++){
                     System.out.println("checkboxlist "+i+" selected status: "+((CheckBox)checkboxList.get(i)).isSelected());
                     String[]x = OptionActivity.checkboxList.get(i).isChecked()
                             ? new String[]{category}
                             : new String[]{""};
-                    a &= db.update(tableName,new String[]{"status"},x,"id = ?",new String[]{temp[i][0]});
+                    a &= db.update(tableName,new String[]{"status"},x,whereClause,new String[]{temp[i][0]});
                 }
                 Toast.makeText(getApplicationContext(),"Data "+(a ? "saved successfully" : "failed to save"),Toast.LENGTH_SHORT).show();
                 finish();
