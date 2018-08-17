@@ -3,7 +3,6 @@
 
 package com.example.heniedrianti.projectta;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,14 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.heniedrianti.projectta.connection.OnlineConnection;
 import com.example.heniedrianti.projectta.database.DatabaseEngine;
 import com.example.heniedrianti.projectta.variable.AllConstants;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class viewdata extends AppCompatActivity {
+public class OptionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +31,13 @@ public class viewdata extends AppCompatActivity {
         db = new DatabaseEngine(getApplicationContext());
         optionListLinearLayout = (LinearLayout)findViewById(R.id.optionlistlayout);
         button = (Button)findViewById(R.id.option_list_button);
-        viewdata.checkboxList = new ArrayList<>();
+        OptionActivity.checkboxList = new ArrayList<>();
 
         final String category = getIntent().getStringExtra("category");
         final String tableName = getIntent().getStringExtra("table");
         System.out.println("category: "+category);
         System.out.println("tableName: "+tableName);
         int[]a;
-        String[]listTable = AllConstants.SQLiteProperties.TABLENAME;
         switch (tableName){
             case "person"   :   a=linearSeries(AllConstants.SQLiteProperties.COLUMNNAME[0].length);
                 break;
@@ -72,7 +68,7 @@ public class viewdata extends AppCompatActivity {
             textView.setText(text[1]);
             checklist.setChecked(data[i][data[i].length-1]==null ? false : !data[i][data[i].length-1].equals(AllConstants.StatusLibrary.UNCHECKED_STATUS));
             optionListLinearLayout.addView(temp);
-            viewdata.checkboxList.add(checklist);
+            OptionActivity.checkboxList.add(checklist);
         }
 
         final String[][]temp = data;
@@ -83,7 +79,7 @@ public class viewdata extends AppCompatActivity {
                 boolean a = true;
                 for(int i=0;i<checkboxList.size();i++){
                     System.out.println("checkboxlist "+i+" selected status: "+((CheckBox)checkboxList.get(i)).isSelected());
-                    String[]x = viewdata.checkboxList.get(i).isChecked()
+                    String[]x = OptionActivity.checkboxList.get(i).isChecked()
                             ? new String[]{category}
                             : new String[]{""};
                     a &= db.update(tableName,new String[]{"status"},x,"id = ?",new String[]{temp[i][0]});

@@ -448,7 +448,7 @@ public class inputak extends AppCompatActivity {
         String category = ""+((char)(page+65))+(inputak.currentOption<9?"0":"")+ Integer.toString(inputak.currentOption+1);
 //        String tableName = AllConstants.SQLiteProperties.TABLENAME[tableSelected[page][currentOption]];
 //        Log.d("openInputActivity","generated category: "+category);
-        Intent bview = new Intent(inputak.this, viewdata.class);
+        Intent bview = new Intent(inputak.this, OptionActivity.class);
 //        String category = "B01";
 ////        String tableName = "mengajar";
 //        bview.putExtra("query","select * from mengajar where (status = '' or status = '"+category+"' or status IS NULL)");
