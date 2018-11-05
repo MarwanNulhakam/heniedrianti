@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.heniedrianti.projectta.variable.AllConstants;
+import com.example.heniedrianti.projectta.variable.Variable;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -41,7 +42,7 @@ public class inputak extends AppCompatActivity {
             "I. Menyampaikan orasi ilmiah",
             "J. Menduduki jabatan pimpinan perguruan tertinggi",
             "K. Membimbing Akademik dosen yang lebih rendah jabatannya",
-            "L. Melaksanakan kegiatab Datasering dan pencangkokan Akademik Dosen",
+            "L. Melaksanakan kegiatan Data sering dan pencangkokan Akademik Dosen",
             "M. Menlakukan kegiatan pengembangan diri untuk meningkatkan kompetensi"
     };
     String[] q3 = new String[]{
@@ -67,11 +68,12 @@ public class inputak extends AppCompatActivity {
             "C. Menjadi anggota orgabisasi profesi dosen",
             "D. Mewakili pengurusan tinggi/lembaga pemerintah",
             "E. Menjadi anggota deligasi nasional kepertemuan internasional",
-            "F. Berperan aktif dalam pertemuan ilmiah",
-            "G. Mendapat penghargaan tanda jasa",
-            "H. Menulis buku pelajaran SLTA ke bawah yang diterbitkan dan diedarkan secara nasional",
-            "I. Mempunyai prestasi dibidang olahraga/humaniora",
-            "J. Keanggotaan dalam tim penilai"
+            "F. Berperan serta aktif dalam pengelolaan jurnal ilmiah",
+            "G. Berperan aktif dalam pertemuan ilmiah",
+            "H. Mendapat penghargaan tanda jasa",
+            "I. Menulis buku pelajaran SLTA ke bawah yang diterbitkan dan diedarkan secara nasional",
+            "J. Mempunyai prestasi dibidang olahraga/humaniora",
+            "K. Keanggotaan dalam tim penilai"
     };
 
     String[][] opsiPendidikan =  {
@@ -102,7 +104,7 @@ public class inputak extends AppCompatActivity {
                 "7. Ketua jurusan pada politeknik/akademi/sekertaris jurusanbagian pada universitas/institut/sekolah tinggi",
                 "8.Sekertaris jurusan pada politeknik/akademi/sekertaris jurusan bagian pada universitas/institut/sekolah tinggi"
             },
-            {"1. Menmbimbing pencakokan","2. Reguler"},
+            {"1. Membimbing pencakokan","2. Reguler"},
             {"1. Detasering","2. Pencangkokan" },
             {
                 "1. Lamanya lebih dari 960 jam",
@@ -203,7 +205,7 @@ public class inputak extends AppCompatActivity {
      */
     List<LinkedHashMap<String, String[]>> data = new ArrayList<>();
 
-    int[] sidebarCount = {2,13,8,5,10};
+    int[] sidebarCount = {2,13,8,5,11};//menu pendidikan dll
 
     int page=0;
     private static int currentOption=0;
@@ -348,6 +350,7 @@ public class inputak extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         page = (page+1)%5;
+
                         System.out.println("page ="+page);
                         settingSidebarForIndex(page);
                         setQuestionGroup(page, optionSelectedEachPage[page]);
@@ -418,7 +421,7 @@ public class inputak extends AppCompatActivity {
     private void setQuestionGroup(int index, int option){
         question.setText(questionGroup[index][option]);
         setOptionInvisibility();
-        setOptionVisibility(index,option);
+        //setOptionVisibility(index,option);
     }
 
     private void setOptionInvisibility(){
@@ -434,28 +437,24 @@ public class inputak extends AppCompatActivity {
             checkBoxGroup[i].setText(optionGroup[index][option][i]);
         }
     }
-    //  0       1           2           3           4       5       6
-    //"person","mengajar","skripsi","kegiatan","jurnal","jabatan","pembinaan"
+    // Cara aplikasi mengambil data dari database SQLite berdasarkan kategori.misal pendidikan ke tabel mana
+    //  0        1             2           3           4       5       6    7
+    //"person","mengajar","skripsi","kegiatan","jurnal","jabatan","pembinaan, karir"
     private final int[][]tableSelected = {
             {7,0},
             {1,6,6,2,2,6,3,3,3,5,6,3,3},
             {4,4,4,4,4,4,4,4},
             {5,3,3,3,3},
-            {3,3,5,3,3,3,3,3,3,3}
+            {3,3,5,3,3,3,3,3,3,3,3}
     };
 
     private void openInputActivity(){
         String category = ""+((char)(page+65))+(inputak.currentOption<9?"0":"")+ Integer.toString(inputak.currentOption+1);
-//        String tableName = AllConstants.SQLiteProperties.TABLENAME[tableSelected[page][currentOption]];
-//        Log.d("openInputActivity","generated category: "+category);
+        Variable var = new Variable();
         Intent bview = new Intent(inputak.this, OptionActivity.class);
-//        String category = "B01";
-////        String tableName = "mengajar";
-//        bview.putExtra("query","select * from mengajar where (status = '' or status = '"+category+"' or status IS NULL)");
-//        bview.putExtra("table","mengajar");
-//        bview.putExtra("category",category);
-        String tableName = AllConstants.SQLiteProperties.TABLENAME[tableSelected[page][inputak.currentOption]];
-        bview.putExtra("query","select * from "+tableName+" where (status = '' or status = '"+category+"' or status IS NULL)");
+
+        String tableName = AllConstants.SQLiteProperties.TABLENAME[tableSelected[page][optionSelectedEachPage[page]]];
+        bview.putExtra("query","select * from "+tableName+" where (status = '' or status = '"+category+"' or status IS NULL)" + var.KONDISI_TAMBAHAN[page][optionSelectedEachPage[page]]);
         bview.putExtra("table",tableName);
         bview.putExtra("category",category);
         startActivity(bview);

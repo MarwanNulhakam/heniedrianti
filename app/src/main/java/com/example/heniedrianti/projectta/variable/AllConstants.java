@@ -1,5 +1,7 @@
 package com.example.heniedrianti.projectta.variable;
 
+import com.example.heniedrianti.projectta.database.DatabaseEngine;
+
 public class AllConstants {
     public static class StatusLibrary{
         public static final String UNCHECKED_STATUS="";
@@ -7,8 +9,9 @@ public class AllConstants {
 
     public static class SQLiteProperties{
         public static final String DATABASENAME = "creditdb.db";
+        public static String nip = "";
 
-        /*Tabel dan struktur tabel yang dibuat oleh aplikasi saat login pertama*/
+        /*Tabel dan struktur tabel yang dibuat oleh aplikasi saat login pertama array*/
         public static final String[]TABLENAME = new String[]{"person","mengajar","skripsi","kegiatan","jurnal","jabatan","pembinaan","karir"};
         public static final String[][]COLUMNNAME = {
                 {"nip TEXT PRIMARY KEY","nama TEXT","gelardepan TEXT","gelarBelakang TEXT","nomorkarpeg TEXT","pangkat TEXT","tempatlahir TEXT","tanggallahir TEXT","gender TEXT","pendidikanterakhir TEXT","jabatanakademik TEXT","unitkerja TEXT","tanggalprajabatan TEXT","status TEXT"},
@@ -125,7 +128,7 @@ public class AllConstants {
         public static String[] concatOptionList(String tableName, String[]value){
             String[]result = new String[2];
             switch (tableName){
-                case "person"   :   result[0] = "Diklat Prajabatan Golongan III";
+                case "person"   :   result[0] = "Diklat Prajabatan Golongan III/d";
                                     result[1] = value[12];
                                     return result;
                 case "jabatan"  :   result[0] = String.format("%s %s %s",value[2],value[3],value[4]);
@@ -146,10 +149,14 @@ public class AllConstants {
                 case "pembinaan":   result[0] = String.format("Membimbing %s",value[2]);
                                     result[1] = value[3];
                                     return result;
-                case "skripsi"  :   result[0] = String.format("Bertugas sebagai %s Mahasiswa dengan NIM ",value[2]);
+                case "skripsi"  :
+                    String status = value[4].equals(SQLiteProperties.nip) || value[5].equals(SQLiteProperties.nip) ?"Pembimbing":"Penguji";
+                                    result[0] = status.equals("Pembimbing") ?
+                                                String.format("Membimbing dan ikut membimbing dalam menghasilkan skripsi mahasiswa a.n %s",value[3]) :
+                                                String.format("Bertugas sebagai penguji Mahasiswa dengan a.n %s",value[3]);
                                     result[1] = value[2];
                                     return result;
-                case "karir"    :   result[0] = String.format("Jenjang %s dari %s",value[1],value[3]);
+                case "karir"    :   result[0] = String.format("Jenjang %s dari %s",value[1],value[3]);//cek di sqlite
                                     result[1] = value[2];
                                     return result;
             }

@@ -71,7 +71,7 @@
         android:id="@+id/imageView"
         android:layout_width="94dp"
         android:layout_height="69dp"
-        app:srcCompat="@drawable/unramlogo"
+        app:srcCompat="@drawable/logobaru"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"

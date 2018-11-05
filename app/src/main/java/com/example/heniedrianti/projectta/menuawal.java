@@ -5,12 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.heniedrianti.projectta.database.DatabaseEngine;
+import com.example.heniedrianti.projectta.variable.AllConstants;
+
 public class menuawal extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menuawal);
+        if(AllConstants.SQLiteProperties.nip.length()<2) {
+            DatabaseEngine db = new DatabaseEngine(getApplicationContext());
+            AllConstants.SQLiteProperties.nip = db.cursorToStringArray2D(db.executeQuery("SELECT * FROM person"), new int[]{0})[0][0];
+        }
     }
     public void identitas(View view) {
         Intent bidentitas = new Intent(menuawal.this, identitas.class);

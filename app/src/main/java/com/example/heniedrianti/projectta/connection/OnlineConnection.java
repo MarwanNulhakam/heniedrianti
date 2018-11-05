@@ -58,7 +58,7 @@ public class OnlineConnection {
 
                 try {
                     ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-                    Log.d("execute","OnlineConnection.request.doInBackground");
+                    Log.d("OnlineConnection","OnlineConnection.request.doInBackground");
                     nameValuePairs.add(new BasicNameValuePair("id", id));
                     HttpClient httpclient = new DefaultHttpClient();
                     Log.d("OnlineConnection","accessing URL: "+url);
@@ -67,9 +67,9 @@ public class OnlineConnection {
                     HttpResponse response = httpclient.execute(httppost);
                     HttpEntity entity = response.getEntity();
                     is = entity.getContent();
-                    Log.e("pass 1", "connection success ");
+                    Log.e("OnlineConnection", "pass 1 connection success ");
                 } catch (Exception e) {
-                    Log.e("Fail 1", e.toString());
+                    Log.e("OnlinceConnection", e.toString());
                 }
 
                 try {
@@ -82,7 +82,7 @@ public class OnlineConnection {
                     }
                     is.close();
                     result = sb.toString();
-                    Log.d("pass 2", "connection success ");
+                    Log.d("OnlineConnection", "pass 2 connection success ");
                 } catch (Exception e) {
                     Log.e("Fail 2", e.toString());
                 }
@@ -90,7 +90,7 @@ public class OnlineConnection {
                 JSONArray json_array;
                 try {
                     json_data = new JSONObject(result);
-                    Log.d("OnlineConnection", "Success, return JSON Object");
+                    Log.d("OnlineConnection", "Pass 3 Success, return JSON Object");
                     return json_data.toString();
 
                 } catch (Exception e) {

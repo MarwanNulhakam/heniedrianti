@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.heniedrianti.projectta.connection.OnlineConnection;
 import com.example.heniedrianti.projectta.database.DatabaseEngine;
+import com.example.heniedrianti.projectta.variable.AllConstants;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initVariable();
-        ipAddress = "192.168.1.5";
+        ipAddress ="192.168.43.64";
 
         /*
         * memeriksa apakah aplikasi sudah digunakan login
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void login(View view) {
+        AllConstants.SQLiteProperties.nip = nipField.getText().toString();
         initDB();
         Intent blogin = new Intent(MainActivity.this, menuawal.class);
         startActivity(blogin);
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         //ambil data skripsi
         new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20all_data_on_table%20FROM%20skripsi%20WHERE%20pembimbingutama="+nipField.getText().toString()+"%20OR%20pembimbingpendamping="+nipField.getText().toString()+"%20OR%20pengujiutama="+nipField.getText().toString()+"%20OR%20penguji2="+nipField.getText().toString()+"%20OR%20penguji3="+nipField.getText().toString()+"").request("0","skripsi",de);
         //ambil data jurnal
-        new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20karyailmiah.id,ISN,tingkat,judul,tanggal,jenis,halaman,event,penerbit,volume,karyailmiah.posisi%20FROM%20jurnal%20LEFT%20JOIN%20karyailmiah%20ON%20jurnal.id%20=%20karyailmiah.id%20WHERE%20karyailmiah.nip%20=%20%27"+nipField.getText().toString()+"%27").request("0","jurnal",de);
+        new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20karyailmiah.id,ISN,tingkat,judul,tanggal,jenis,halaman,event,penerbit,volume,karyailmiah.posisi%20FROM%20jurnal%20LEFT%20JOIN%20karyailmiah%20ON%20jurnal.id%20=%20karyailmiah.idjurnal%20WHERE%20karyailmiah.nip%20=%20%27"+nipField.getText().toString()+"%27").request("0","jurnal",de);
         //ambil data kegiatan
         new OnlineConnection(this,"http://"+ipAddress+"/dynamicQuery.php?query=SELECT%20peran.id%20as%20idperan,kegiatan.uraian,kegiatan.tanggal,kegiatan.satuan,kegiatan.volume,kegiatan.statuskegiatan,peran.peran%20FROM%20kegiatan%20LEFT%20JOIN%20peran%20ON%20kegiatan.id%20=%20peran.idkegiatan%20WHERE%20peran.nip%20=%20"+nipField.getText().toString()).request("0","kegiatan",de);
         //ambil data jabatan
